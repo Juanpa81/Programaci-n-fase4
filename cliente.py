@@ -1,41 +1,32 @@
-# Clase Cliente
-# Sistema Software FJ
 
+# Clase Cliente
+
+
+import uuid
 
 class Cliente:
 
-    
-    # Constructor
-    # Se ejecuta cuando se crea un cliente
-    
-    def __init__(self, nombre, cedula):
+    def __init__(self, nombre, cedula, activo=True):
 
-        
-        # Validaciones
-        
-
-        if not nombre:
-            raise ValueError("El nombre no puede estar vacío")
+        if not nombre or len(nombre.strip()) < 3:
+            raise ValueError("Nombre inválido")
 
         if not cedula:
-            raise ValueError("La cédula no puede estar vacía")
+            raise ValueError("Cédula obligatoria")
 
-        
-        # Encapsulación (datos privados)
-        
+        # ID que el sistema necesita
+        self.id_entidad = str(uuid.uuid4())[:8].upper()
 
-        self.__nombre = nombre
-        self.__cedula = cedula
+        self.nombre = nombre.strip()
+        self.cedula = cedula
+        self.activo = activo
 
-    
-    # Metodo para obtener el nombre
-    
-    def get_nombre(self):
-        return self.__nombre
+    def desactivar(self):
+        self.activo = False
 
-   
-    # Metodo para mostrar datos
-    
-    def mostrar(self):
-        print("Nombre:", self.__nombre)
-        print("Cédula:", self.__cedula)
+    def activar(self):
+        self.activo = True
+
+    def __str__(self):
+        estado = "Activo" if self.activo else "Inactivo"
+        return f"{self.nombre} ({estado})"
